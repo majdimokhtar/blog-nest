@@ -4,15 +4,16 @@ import { BlogPostRepository } from './blog-post.repository.interface';
 export class InMemoryBlogPostRepository implements BlogPostRepository {
   private blogPosts: BlogPost[] = [];
 
-  save(blogPost: BlogPost): void {
+  async save(blogPost: BlogPost): Promise<void> {
     this.blogPosts.push(blogPost);
   }
 
-  findById(id: string): BlogPost | undefined {
+  async findById(id: string): Promise<BlogPost | undefined> {
     return this.blogPosts.find((post) => post.id === id);
   }
 
-  findAll(): BlogPost[] {
+  async findAll(): Promise<BlogPost[]> {
     return [...this.blogPosts];
   }
 }
+

@@ -14,7 +14,7 @@ import { BlogPostRepository } from '../../infrastructure/repositories/blog-post.
 export class GetBlogPostByIdUseCase {
   constructor(private readonly blogPostRepository: BlogPostRepository) {}
 
-  execute(id: string): BlogPost | undefined {
-    return this.blogPostRepository.findById(id);
+  async execute(id: string): Promise<BlogPost | undefined> {
+    return await this.blogPostRepository.findById(id);
   }
 }

@@ -18,15 +18,15 @@ import { BlogPostRepository as BlogPostRepositoryInterface } from './repositorie
 export class BlogPostRepository implements BlogPostRepositoryInterface {
   private blogPosts: BlogPost[] = [];
 
-  save(blogPost: BlogPost): void {
+  async save(blogPost: BlogPost): Promise<void> {
     this.blogPosts.push(blogPost);
   }
 
-  findById(id: string): BlogPost | undefined {
+  async findById(id: string): Promise<BlogPost | undefined> {
     return this.blogPosts.find((post) => post.id === id);
   }
 
-  findAll(): BlogPost[] {
+  async findAll(): Promise<BlogPost[]> {
     return [...this.blogPosts];
   }
 }
