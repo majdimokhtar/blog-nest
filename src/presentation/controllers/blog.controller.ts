@@ -49,6 +49,7 @@ import { GetBlogPostByIdUseCase } from '../../application/use-cases/get-blog-pos
 import { TypeOrmBlogPostRepository } from '../../infrastructure/repositories/typeorm-blog-post.repository';
 import { CreateBlogPostDto } from '../dto/create-blog-post.dto';
 
+
 @Controller('blog')
 export class BlogController {
   constructor(private readonly blogPostRepository: TypeOrmBlogPostRepository) {}
@@ -59,24 +60,30 @@ export class BlogController {
     const createBlogPostUseCase = new CreateBlogPostUseCase(
       this.blogPostRepository,
     );
-    const blogPost = createBlogPostUseCase.execute(
+    const blogPost = await createBlogPostUseCase.execute(
       createBlogDto.title,
       createBlogDto.content,
       createBlogDto.authorId,
     );
-    await this.blogPostRepository.save(blogPost);
     return blogPost;
   }
 
   @Get(':id')
   async getById(@Param('id') id: string) {
-    const getBlogPostByIdUseCase = new GetBlogPostByIdUseCase(
-      this.blogPostRepository,
-    );
-    const blogPost = await getBlogPostByIdUseCase.execute(id);
-    if (!blogPost) {
+    try {
+      const getBlogPostByIdUseCase = new GetBlogPostByIdUseCase(
+        this.blogPostRepository,
+      );
+      const blogPost = await getBlogPostByIdUseCase.execute(id);
+      if (!blogPost) {
+        throw new NotFoundException('Blog post not found');
+      }
+      return blogPost;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new NotFoundException('Blog post not found');
     }
-    return blogPost;
   }
 }

@@ -58,10 +58,13 @@ export class BlogPost {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  constructor(title: string, content: string, authorId: string) {
+  constructor(id: string, title: string, content: string, authorId: string) {
+    this.id = id; // explicitly set id in the constructor for testing
     this.title = title;
     this.content = content;
     this.authorId = authorId;
+    this.createdAt = new Date(); // initialize createdAt
+    this.updatedAt = new Date(); // initialize updatedAt
   }
 
   updateContent(newContent: string) {

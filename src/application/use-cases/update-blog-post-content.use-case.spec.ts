@@ -8,9 +8,7 @@ describe('UpdateBlogPostContentUseCase', () => {
       'Test Title',
       'Old Content',
       'author123',
-      new Date(),
-      new Date(),
-    );
+    ); // Provide the authorId
     const updateBlogPostContentUseCase = new UpdateBlogPostContentUseCase();
 
     updateBlogPostContentUseCase.execute(blogPost, 'New Content');
