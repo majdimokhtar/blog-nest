@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: blog-postgres
+    environment:
+      POSTGRES_USER: bloguser
+      POSTGRES_PASSWORD: blogpass
+      POSTGRES_DB: blogdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  blog-app:
+    build: .
+    container_name: blog-app
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: bloguser
+      DB_PASSWORD: blogpass
+      DB_DATABASE: blogdb
+      JWT_SECRET: secretKey
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
+    driver: local
