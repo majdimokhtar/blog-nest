@@ -1,9 +1,9 @@
 import { BlogPost } from '../../domain/blog-post.entity';
-import { BlogPostRepository } from '../../infrastructure/repositories/blog-post.repository.interface';
+import { BlogPostRepositoryInterface } from '../../infrastructure/repositories/blog-post.repository.interface';
 import { v4 as uuidv4 } from 'uuid'; // Import UUID to generate a unique id
 
 export class CreateBlogPostUseCase {
-  constructor(private readonly blogPostRepository: BlogPostRepository) {}
+  constructor(private readonly blogPostRepository: BlogPostRepositoryInterface) {}
 
   execute(title: string, content: string, authorId: string): BlogPost {
     const id = uuidv4(); // Generate a new UUID for the blog post

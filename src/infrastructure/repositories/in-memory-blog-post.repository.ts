@@ -1,7 +1,7 @@
 import { BlogPost } from '../../domain/blog-post.entity';
-import { BlogPostRepository } from './blog-post.repository.interface';
+import { BlogPostRepositoryInterface } from './blog-post.repository.interface';
 
-export class InMemoryBlogPostRepository implements BlogPostRepository {
+export class InMemoryBlogPostRepository implements BlogPostRepositoryInterface {
   private blogPosts: BlogPost[] = [];
 
   async save(blogPost: BlogPost): Promise<void> {

@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BlogPost } from '../../domain/blog-post.entity';
-import { BlogPostRepository } from './blog-post.repository.interface';
+import { BlogPostRepositoryInterface } from './blog-post.repository.interface';
 
 @Injectable()
-export class TypeOrmBlogPostRepository implements BlogPostRepository {
+export class TypeOrmBlogPostRepository implements BlogPostRepositoryInterface {
   constructor(
     @InjectRepository(BlogPost)
     private readonly repository: Repository<BlogPost>,

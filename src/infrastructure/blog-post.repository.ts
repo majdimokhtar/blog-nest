@@ -1,5 +1,5 @@
 import { BlogPost } from '../domain/blog-post.entity';
-import { BlogPostRepository as BlogPostRepositoryInterface } from './repositories/blog-post.repository.interface';
+import { BlogPostRepositoryInterface} from './repositories/blog-post.repository.interface';
 
 export class BlogPostRepository implements BlogPostRepositoryInterface {
   private blogPosts: BlogPost[] = [];

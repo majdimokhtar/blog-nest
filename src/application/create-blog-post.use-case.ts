@@ -1,4 +1,4 @@
-import { BlogPostRepository } from 'src/infrastructure/blog-post.repository';
+import { BlogPostRepository } from '../infrastructure/blog-post.repository';
 import { BlogPost } from '../domain/blog-post.entity';
 
 import { v4 as uuidv4 } from 'uuid'; // Import UUID generator
