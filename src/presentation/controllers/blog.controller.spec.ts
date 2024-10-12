@@ -105,7 +105,7 @@ describe('BlogController (e2e)', () => {
 
       createdPostId = createResponse.body.id;
       console.log('Created Post ID:', createdPostId);
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     });
 
     it('should retrieve a blog post by ID (no auth required)', async () => {
@@ -147,7 +147,7 @@ describe('BlogController (e2e)', () => {
 
       createdPostId = createResponse.body.id;
       console.log('Created Post ID for update:', createdPostId);
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     });
 
     it('should update a blog post content when authenticated', async () => {
