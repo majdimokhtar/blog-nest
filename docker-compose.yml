@@ -2,7 +2,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:latest
-    container_name: blog-postgres
+    container_name: blog-container
     environment:
       POSTGRES_USER: bloguser
       POSTGRES_PASSWORD: blogpass

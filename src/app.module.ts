@@ -14,18 +14,24 @@ import { User } from './domain/user.entity';
 import { TypeOrmUserRepository } from './infrastructure/repositories/typeorm-user.repository';
 import { JwtAuthGuard } from './presentation/auth/jwt-auth.guard';
 import { JwtStrategy } from './presentation/auth/jwt.strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'bloguser',
-      password: 'blogpass',
-      database: 'blogdb',
-      entities: [BlogPost, User],
-      synchronize: true,
+    ConfigModule.forRoot({ isGlobal: true }), // This loads environment variables globally
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('DB_HOST'),
+        port: parseInt(configService.get('DB_PORT')),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_DATABASE'),
+        entities: [BlogPost, User],
+        synchronize: true,
+      }),
     }),
     TypeOrmModule.forFeature([BlogPost, User]),
     PassportModule,
@@ -34,13 +40,14 @@ import { JwtStrategy } from './presentation/auth/jwt.strategy';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  controllers: [BlogController, AuthController],
+  controllers: [BlogController, AuthController , AppController],
   providers: [
     TypeOrmBlogPostRepository,
     TypeOrmUserRepository,
     AuthService,
     JwtAuthGuard,
     JwtStrategy,
+    AppService
   ],
 })
 export class AppModule {}

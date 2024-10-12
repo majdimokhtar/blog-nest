@@ -7,7 +7,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { User } from '../../domain/user.entity';
-import { AuthService } from 'src/application/auth/auth.service';
+import { AuthService } from '../../application/auth/auth.service';
 import { RegisterUserDto } from '../dto/register-user.dto';
 import { LoginUserDto } from '../dto/login-user.dto';
 

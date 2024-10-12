@@ -37,6 +37,7 @@ describe('GetBlogPostByIdUseCase', () => {
       save: jest.fn(),
       findById: jest.fn().mockResolvedValue(blogPost),
       findAll: jest.fn(),
+      delete: jest.fn(),
     };
 
     const getBlogPostByIdUseCase = new GetBlogPostByIdUseCase(

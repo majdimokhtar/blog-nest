@@ -4,4 +4,6 @@ export interface BlogPostRepositoryInterface {
   save(blogPost: BlogPost): Promise<void>;
   findById(id: string): Promise<BlogPost | undefined>;
   findAll(): Promise<BlogPost[]>;
+  delete(id: string): Promise<void>;
 }
+ 

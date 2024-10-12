@@ -1,5 +1,5 @@
 import { BlogPost } from '../domain/blog-post.entity';
-import { BlogPostRepositoryInterface} from './repositories/blog-post.repository.interface';
+import { BlogPostRepositoryInterface } from './repositories/blog-post.repository.interface';
 
 export class BlogPostRepository implements BlogPostRepositoryInterface {
   private blogPosts: BlogPost[] = [];
@@ -14,5 +14,12 @@ export class BlogPostRepository implements BlogPostRepositoryInterface {
 
   async findAll(): Promise<BlogPost[]> {
     return [...this.blogPosts];
+  }
+
+  async delete(id: string): Promise<void> {
+    const index = this.blogPosts.findIndex((post) => post.id === id);
+    if (index !== -1) {
+      this.blogPosts.splice(index, 1);
+    }
   }
 }
