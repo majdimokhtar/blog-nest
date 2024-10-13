@@ -1,0 +1,21 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - swagger-finish
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          curl -H "Authorization: Bearer $RENDER_API_KEY" \
+               -H "Content-Type: application/json" \
+               -X POST https://api.render.com/v1/services/srv-cs6511lumphs73b55fp0/deploys
