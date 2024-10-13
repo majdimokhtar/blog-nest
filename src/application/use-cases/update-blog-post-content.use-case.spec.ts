@@ -76,7 +76,7 @@ describe('UpdateBlogPostContentUseCase Integration Test', () => {
     );
 
     // Wait a bit to ensure the timestamp will be different
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Act
     console.log('Acting: Updating blog post content');

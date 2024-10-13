@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Rebuild bcrypt
+RUN npm rebuild bcrypt --build-from-source
+
 # Copy the rest of the application code
 COPY . .
 
@@ -17,7 +20,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Run
-FROM node:18
+FROM node:18-alpine
 
 # Set the working directory
 WORKDIR /app

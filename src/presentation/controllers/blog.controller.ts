@@ -11,6 +11,7 @@ import {
   Inject,
   UseGuards,
   Delete,
+  InternalServerErrorException,
 } from '@nestjs/common';
 
 import { CreateBlogPostUseCase } from '../../application/use-cases/create-blog-post.use-case';
@@ -28,6 +29,7 @@ import {
   ApiResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
+import { GetAllBlogPostsUseCase } from '../../application/use-cases/get-all-blog-posts.use-case';
 
 @ApiTags('blog') // Group the controller under 'blog' in Swagger
 @Controller('blog')
@@ -82,6 +84,25 @@ export class BlogController {
         throw error;
       }
       throw new NotFoundException('Blog post not found');
+    }
+  }
+
+  @ApiOperation({ summary: 'Get all blog posts' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns an array of all blog posts.',
+  })
+  @ApiResponse({ status: 500, description: 'Internal server error.' })
+  @Get()
+  async getAllBlogs() {
+    try {
+      const getAllBlogPostsUseCase = new GetAllBlogPostsUseCase(
+        this.blogPostRepository,
+      );
+      const blogPosts = await getAllBlogPostsUseCase.execute();
+      return blogPosts;
+    } catch (error) {
+      throw new InternalServerErrorException('Error retrieving blog posts');
     }
   }
 

@@ -65,7 +65,7 @@ describe('BlogController - DELETE (e2e)', () => {
 
       createdPostId = createResponse.body.id;
       console.log('Created Post ID for delete:', createdPostId);
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     });
 
     it('should delete an existing post', async () => {
