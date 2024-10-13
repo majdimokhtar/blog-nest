@@ -5,6 +5,7 @@ on:
     branches:
       - crud-finished
       - swagger-finish
+      - final
 
 jobs:
   docker:

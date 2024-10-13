@@ -5,10 +5,12 @@ on:
     branches:
       - crud-finished
       - swagger-finish
+      - final
   pull_request:
     branches:
       - crud-finished
       - swagger-finish
+      - final
 
 jobs:
   build:
