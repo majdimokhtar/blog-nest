@@ -22,7 +22,14 @@ import { UpdateBlogPostContentUseCase } from '../../application/use-cases/update
 import { BlogPostRepository } from '../../infrastructure/blog-post.repository';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { DeleteBlogPostUseCase } from '../../application/use-cases/delete-blog-post.use-case';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 
+@ApiTags('blog') // Group the controller under 'blog' in Swagger
 @Controller('blog')
 export class BlogController {
   constructor(
@@ -31,6 +38,13 @@ export class BlogController {
   ) {}
 
   // Protect the create route with the JWT authentication guard
+  @ApiBearerAuth() // Requires JWT token
+  @ApiOperation({ summary: 'Create a new blog post' }) // Description for the Swagger docs
+  @ApiResponse({
+    status: 201,
+    description: 'The blog post has been successfully created.',
+  }) // Response description
+  @ApiResponse({ status: 400, description: 'Validation error.' }) // Error response description
   @UseGuards(JwtAuthGuard)
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
@@ -46,6 +60,12 @@ export class BlogController {
     return blogPost;
   }
 
+  @ApiOperation({ summary: 'Get a blog post by ID' }) // Swagger docs for getting blog by ID
+  @ApiResponse({
+    status: 200,
+    description: 'The blog post has been successfully retrieved.',
+  })
+  @ApiResponse({ status: 404, description: 'Blog post not found.' })
   @Get(':id')
   async getById(@Param('id') id: string) {
     try {
@@ -66,6 +86,13 @@ export class BlogController {
   }
 
   // Protect the update route with the JWT authentication guard
+  @ApiBearerAuth() // Requires JWT token
+  @ApiOperation({ summary: 'Update a blog post by ID' }) // Swagger docs for updating a blog post
+  @ApiResponse({
+    status: 200,
+    description: 'The blog post has been successfully updated.',
+  })
+  @ApiResponse({ status: 404, description: 'Blog post not found.' })
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
@@ -92,6 +119,13 @@ export class BlogController {
     }
   }
 
+  @ApiBearerAuth() // Requires JWT token
+  @ApiOperation({ summary: 'Delete a blog post by ID' }) // Swagger docs for deleting a blog post
+  @ApiResponse({
+    status: 200,
+    description: 'The blog post has been successfully deleted.',
+  })
+  @ApiResponse({ status: 404, description: 'Blog post not found.' })
   @UseGuards(JwtAuthGuard) // Protect the delete route with JWT authentication
   @Delete(':id')
   async delete(@Param('id') id: string) {

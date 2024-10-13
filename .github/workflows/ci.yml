@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - crud-finished
+      - swagger-finish
   pull_request:
     branches:
       - crud-finished
+      - swagger-finish
 
 jobs:
   build:

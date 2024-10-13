@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - crud-finished
+      - swagger-finish
 
 jobs:
   docker:
