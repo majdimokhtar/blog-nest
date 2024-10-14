@@ -1,28 +1,39 @@
-// export class BlogPost {
-//   constructor(
-//     public readonly id: string,
-//     public title: string,
-//     public content: string,
-//     public authorId: string,
-//     public createdAt: Date,
-//     public updatedAt: Date,
-//   ) {}
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-//   updateContent(newContent: string) {
-//     this.content = newContent;
-//     this.updatedAt = new Date();
-//   }
-// }
-
+@Entity()
 export class BlogPost {
-  constructor(
-    public readonly id: string,
-    public title: string,
-    public content: string,
-    public authorId: string,
-    public createdAt: Date,
-    public updatedAt: Date,
-  ) {}
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
+  title: string;
+
+  @Column()
+  content: string;
+
+  @Column()
+  authorId: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  constructor(id: string, title: string, content: string, authorId: string) {
+    this.id = id; // explicitly set id in the constructor for testing
+    this.title = title;
+    this.content = content;
+    this.authorId = authorId;
+    this.createdAt = new Date(); // initialize createdAt
+    this.updatedAt = new Date(); // initialize updatedAt
+  }
 
   updateContent(newContent: string) {
     this.content = newContent;

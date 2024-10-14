@@ -1,0 +1,11 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5433,
+  "username": "testuser",
+  "password": "testpass",
+  "database": "testdb",
+  "entities": ["src/domain/**/*.entity.ts"],
+  "synchronize": true,
+  "dropSchema": true
+}
