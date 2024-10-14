@@ -3,14 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - crud-finished
-      - swagger-finish
-      - final
+      - finale-blog
   pull_request:
     branches:
-      - crud-finished
-      - swagger-finish
-      - final
+      - finale-blog
 
 jobs:
   build:

@@ -1,7 +1,7 @@
 import {
   Injectable,
   NotFoundException,
-  UnauthorizedException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { TypeOrmUserRepository } from '../../infrastructure/repositories/typeorm-user.repository';
@@ -17,22 +17,30 @@ export class AuthService {
   ) {}
 
   async register(registerUserDto: RegisterUserDto): Promise<void> {
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(registerUserDto.password, salt);
+    try {
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(registerUserDto.password, salt);
 
-    const user = new User();
-    user.username = registerUserDto.username;
-    user.password = hashedPassword;
+      const user = new User();
+      user.username = registerUserDto.username;
+      user.password = hashedPassword;
 
-    await this.userRepository.save(user);
+      await this.userRepository.save(user);
+    } catch (error) {
+      throw new InternalServerErrorException('Error registering user');
+    }
   }
 
   async validateUser(username: string, password: string): Promise<User | null> {
-    const user = await this.userRepository.findByUsername(username);
-    if (user && (await user.validatePassword(password))) {
-      return user;
+    try {
+      const user = await this.userRepository.findByUsername(username);
+      if (user && (await user.validatePassword(password))) {
+        return user;
+      }
+      return null;
+    } catch (error) {
+      throw new InternalServerErrorException('Error validating user');
     }
-    return null;
   }
 
   async login(user: User): Promise<{ accessToken: string }> {
@@ -41,17 +49,26 @@ export class AuthService {
     return { accessToken };
   }
 
-  // New method to get all users
   async getAllUsers(): Promise<User[]> {
-    return await this.userRepository.findAll(); // Assuming this method exists in your repository
+    try {
+      return await this.userRepository.findAll();
+    } catch (error) {
+      throw new InternalServerErrorException('Error retrieving users');
+    }
   }
 
-  // New method to get a user by ID
   async getUserById(id: string): Promise<User> {
-    const user = await this.userRepository.findById(id); // Assuming this method exists in your repository
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
+    try {
+      const user = await this.userRepository.findById(id);
+      if (!user) {
+        throw new NotFoundException(`User with ID ${id} not found`);
+      }
+      return user;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error retrieving user');
     }
-    return user;
   }
 }

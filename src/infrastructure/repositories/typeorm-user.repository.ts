@@ -1,8 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../../domain/user.entity';
-import { find } from 'rxjs';
 
 @Injectable()
 export class TypeOrmUserRepository {
@@ -12,20 +11,34 @@ export class TypeOrmUserRepository {
   ) {}
 
   async save(user: User): Promise<void> {
-    await this.repository.save(user);
+    try {
+      await this.repository.save(user);
+    } catch (error) {
+      throw new InternalServerErrorException('Error saving user');
+    }
   }
 
   async findByUsername(username: string): Promise<User | undefined> {
-    return await this.repository.findOne({ where: { username } });
+    try {
+      return await this.repository.findOne({ where: { username } });
+    } catch (error) {
+      throw new InternalServerErrorException('Error finding user by username');
+    }
   }
 
-  // New method to find all users
   async findAll(): Promise<User[]> {
-    return await this.repository.find();
+    try {
+      return await this.repository.find();
+    } catch (error) {
+      throw new InternalServerErrorException('Error finding all users');
+    }
   }
 
-  // New method to find user by ID
   async findById(id: string): Promise<User | undefined> {
-    return await this.repository.findOne({ where: { id } });
+    try {
+      return await this.repository.findOne({ where: { id } });
+    } catch (error) {
+      throw new InternalServerErrorException('Error finding user by ID');
+    }
   }
 }

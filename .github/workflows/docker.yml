@@ -3,9 +3,7 @@ name: Docker Build and Push
 on:
   push:
     branches:
-      - crud-finished
-      - swagger-finish
-      - final
+      - finale-blog
 
 jobs:
   docker:
